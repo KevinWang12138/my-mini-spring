@@ -3,6 +3,7 @@ package org.springframework.bean.support;
 import org.springframework.bean.PropertyValue;
 import org.springframework.bean.config.BeanDefinition;
 import cn.hutool.core.bean.BeanUtil;
+import org.springframework.bean.config.BeanReference;
 
 /**
  * 继承抽象bean工厂类，实现其中的创建bean的方法
@@ -37,11 +38,17 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
         return getInstantiationStrategy().instantiate(beanDefinition);
     }
     //设置属性值
-    public void applyPropertyValues(Object bean,BeanDefinition beanDefinition){
+    public void applyPropertyValues(Object bean,BeanDefinition beanDefinition) throws Exception {
         try {
             for(PropertyValue pv:beanDefinition.getPropertyValues().getPropertyValueList()){
                 String name=pv.getName();
                 Object value=pv.getValue();
+                //如果有参数的类型是bean，那么就先对他进行注册
+                //暂时不考虑循环依赖的问题
+                if(value instanceof BeanReference){
+                    BeanReference reference=(BeanReference) value;
+                    value=getBean(reference.getBeanName());
+                }
                 //调用反射添加属性值
                 BeanUtil.setFieldValue(bean,name,value);
             }
