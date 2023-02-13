@@ -1,6 +1,8 @@
 package org.springframework.bean.support;
 
+import org.springframework.bean.PropertyValue;
 import org.springframework.bean.config.BeanDefinition;
+import cn.hutool.core.bean.BeanUtil;
 
 /**
  * 继承抽象bean工厂类，实现其中的创建bean的方法
@@ -23,6 +25,8 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
             //bean=beanClass.newInstance();
             //改为使用更加高级的构造方法创建bean对象
             bean = createBeanInstance(beanDefinition);
+            //构建完bean之后要添加属性值
+            applyPropertyValues(bean,beanDefinition);
         }catch (Exception e){
             throw e;
         }
@@ -31,6 +35,19 @@ public abstract class AbstractAutowireCapableBeanFactory extends AbstractBeanFac
     }
     protected Object createBeanInstance(BeanDefinition beanDefinition) throws Exception {
         return getInstantiationStrategy().instantiate(beanDefinition);
+    }
+    //设置属性值
+    public void applyPropertyValues(Object bean,BeanDefinition beanDefinition){
+        try {
+            for(PropertyValue pv:beanDefinition.getPropertyValues().getPropertyValueList()){
+                String name=pv.getName();
+                Object value=pv.getValue();
+                //调用反射添加属性值
+                BeanUtil.setFieldValue(bean,name,value);
+            }
+        }catch (Exception e){
+            throw e;
+        }
     }
 
     public InstantiationStrategy getInstantiationStrategy() {

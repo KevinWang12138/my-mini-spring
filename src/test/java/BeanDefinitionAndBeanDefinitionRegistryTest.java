@@ -1,6 +1,5 @@
-package org.springframework.bean.test;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.springframework.bean.config.BeanDefinition;
 import org.springframework.bean.support.DefaultListableBeanFactory;
 

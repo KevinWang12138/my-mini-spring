@@ -12,5 +12,8 @@
         <module name="my-mini-spring" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="mini-spring" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
