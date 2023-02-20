@@ -1,6 +1,9 @@
-package springframework.beans.factory.config;
+package springframework.beans.factory.support;
 
 import springframework.beans.BeanException;
+import springframework.beans.factory.config.BeanDefinition;
+import springframework.beans.factory.support.AbstractAutowireCapableBeanFactory;
+import springframework.beans.factory.support.BeanDefinitionRegistry;
 
 import java.util.HashMap;
 
@@ -10,8 +13,8 @@ import java.util.HashMap;
  * 实现了beanDefinition注册器的接口，实现里面的注册方法
  * 提供beanDefinition的容器
  */
-public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry{
-    private HashMap<String,BeanDefinition> beanDefinitionMap=new HashMap<>();
+public class DefaultListableBeanFactory extends AbstractAutowireCapableBeanFactory implements BeanDefinitionRegistry {
+    private HashMap<String, BeanDefinition> beanDefinitionMap=new HashMap<>();
 
     @Override
     public void registerBeanDefinition(String beanName, BeanDefinition beanDefinition) {

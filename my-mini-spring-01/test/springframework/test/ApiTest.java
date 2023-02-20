@@ -2,7 +2,7 @@ package springframework.test;
 
 import org.junit.Test;
 import springframework.beans.factory.config.BeanDefinition;
-import springframework.beans.factory.config.DefaultListableBeanFactory;
+import springframework.beans.factory.support.DefaultListableBeanFactory;
 import springframework.test.bean.UserService;
 
 public class ApiTest {
@@ -14,7 +14,7 @@ public class ApiTest {
         BeanDefinition userServiceBeanDefinition=new BeanDefinition(UserService.class);
         factory.registerBeanDefinition("userService",userServiceBeanDefinition);
         //3.获取bean对象
-        System.out.println(factory.getBean("userService"));
-
+        UserService userService=(UserService) factory.getBean("userService",new String[]{"kevin"});
+        userService.hello();
     }
 }
